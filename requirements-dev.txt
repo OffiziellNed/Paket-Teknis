@@ -1,0 +1,3 @@
+-r requirements.txt
+pytest>=8.0
+waitress>=3.0             # server lokal Windows (jalankan.bat)

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}{% block title %}{{ p.label }}{% endblock %}{% block body %}
+<h1>{{ p.label }} <span class="badge b-{{ p.status }}">{{ p.status }}</span></h1>
+<div class="kpi" style="margin-bottom:14px">
+<div><span>PPh 23</span><b>{{ rep.totals.pph23|rp }}</b></div><div><span>PPh Final 4(2)</span><b>{{ rep.totals.final|rp }}</b></div>
+<div><span>PPh 21 Freelance</span><b>{{ rep.totals.pph21_freelance|rp }}</b></div><div><span>PPh 21 Bulanan</span><b>{{ rep.totals.pph21|rp }}</b></div>
+<div><span>TOTAL PAJAK</span><b>{{ rep.totals.total|rp }}</b></div><div><span>Jumlah bupot</span><b>{{ rep.totals.count_bupot }}</b></div>
+</div>
+{% if p.review_note %}<div class="flash warn">Catatan reviewer: {{ p.review_note }}</div>{% endif %}
+<div class="row" style="margin-bottom:12px">
+{% if not p.locked and has_role('TAX_SUPPORT') %}<a class="btn" href="{{ url_for('main.trx_edit', pid=p.id) }}">+ Transaksi</a>{% endif %}
+<a class="btn sec" href="{{ url_for('main.faktur', pid=p.id) }}">Faktur & crosscheck</a>
+<a class="btn sec" href="{{ url_for('main.signature', pid=p.id) }}">Tanda tangan</a>
+<a class="btn sec" target="_blank" href="{{ url_for('main.preview', pid=p.id, kind='pdf') }}">Preview PDF</a>
+<a class="btn sec" target="_blank" href="{{ url_for('main.preview', pid=p.id, kind='xml') }}">Preview XML</a>
+<a class="btn sec" href="{{ url_for('main.preview', pid=p.id, kind='xlsx') }}">Preview XLSX</a>
+</div>
+<form method="post" action="{{ url_for('main.trx_confirm', pid=p.id) }}" id="fconfirm">
+<div class="card scroll"><table>
+<tr><th></th><th>No</th><th>Tgl Invoice</th><th>Invoice</th><th>Lawan Transaksi</th><th>NPWP</th><th>KOP</th><th class="n">DPP</th><th class="n">Tarif</th><th class="n">PPh</th><th>Tgl Potong</th><th>No Faktur</th><th>No Bupot</th><th>Notes</th><th></th></tr>
+{% set ns = namespace(no=0) %}
+{% for sec, lbl in SECTIONS.items() %}
+<tr class="sec"><td colspan="15">{{ lbl }}</td></tr>
+{% for t in by_sec[sec] %}{% set ns.no = ns.no + (1 if t.is_output else 0) %}
+<tr class="{{ 'draft' if t.draft_status=='PERLU_KONFIRMASI' }} {{ 'excluded' if t.final_choice=='DIBEBASKAN' }}">
+<td>{% if t.draft_status=='PERLU_KONFIRMASI' %}<input type="checkbox" name="ids" value="{{ t.id }}" class="cb">{% endif %}</td>
+<td>{{ ns.no if t.is_output }}</td><td class="nowrap">{{ t.invoice_date|dt }}</td><td>{{ t.invoice_no }}</td><td>{{ t.name }}</td>
+<td class="nowrap">{{ t.npwp_display }}</td><td class="nowrap">{{ t.kop or '' }}</td><td class="n">{{ t.dpp|rp }}</td><td class="n">{{ '%g'|format(t.rate*100) }}%</td>
+<td class="n">{{ t.pph_rp|rp }}</td><td class="nowrap">{{ t.withholding_date|dt }}</td><td>{{ t.faktur_no or '' }}</td><td>{{ t.bupot_no or '' }}</td>
+<td>{% if t.draft_status=='PERLU_KONFIRMASI' %}<span class="badge b-DRAFT">Perlu konfirmasi · {{ t.source }}</span> {% endif %}{% if t.final_choice=='DIBEBASKAN' %}<span class="badge">Dibebaskan</span> {% endif %}{{ t.notes or '' }}</td>
+<td class="nowrap">{% if not p.locked and has_role('TAX_SUPPORT') %}<a href="{{ url_for('main.trx_edit', pid=p.id, tid=t.id) }}">Ubah</a>{% endif %}</td></tr>
+{% endfor %}{% endfor %}
+</table>
+{% if drafts and not p.locked and has_role('TAX_SUPPORT') %}<p><label style="display:inline"><input type="checkbox" onclick="document.querySelectorAll('.cb').forEach(c=>c.checked=this.checked)"> pilih semua draft</label>
+<button>Konfirmasi draft terpilih</button></p>{% endif %}
+</div></form>
+
+<div class="grid">
+<div class="card"><h2>PPh 21 bulanan</h2>
+<form method="post" action="{{ url_for('main.period_pph21', pid=p.id) }}" class="row">
+<input name="pph21_total" value="{{ (p.pph21_total or 0)|rp }}" {{ 'disabled' if p.locked }}>{% if not p.locked %}<button>Simpan</button>{% endif %}</form>
+<p class="muted">PPh 21 tidak masuk XML, hanya di laporan.</p></div>
+
+<div class="card"><h2>Tanda tangan</h2>
+<p>{{ sig.city }}, {{ tanggal_indo(sig.date) }} <span class="muted">({{ 'tanggal dipilih' if sig.date_mode=='PILIH' else 'Hari ini (WIB saat generate)' }})</span></p>
+{% if warn_sig %}<p class="st-warn">Tanggal tanda tangan sebelum akhir masa.</p>{% endif %}
+<ul>{% for b in sig.blocks %}<li>{{ b.label }}: {{ b.name }} – {{ b.mode }}{% if b.mode!='BLANK' and not b.printed_image %} <span class="muted">(gambar belum tercetak)</span>{% endif %}</li>{% endfor %}</ul></div>
+
+<div class="card"><h2>Approval</h2>
+{% if p.status=='DRAFT' and has_role('TAX_SUPPORT') %}
+<form method="post" action="{{ url_for('main.submit', pid=p.id) }}"><button>Ajukan ke Manager FAT</button></form>
+{% elif p.status=='SUBMITTED' %}<p>Diajukan oleh {{ p.submitted_by }}.</p>
+{% if has_role('MANAGER_FAT') %}<form method="post" action="{{ url_for('main.approve', pid=p.id) }}">
+<label>Catatan</label><input name="note" style="width:100%"><p class="row"><button name="action" value="approve">Approve & kunci</button><button class="danger" name="action" value="reject">Kembalikan</button></p></form>{% endif %}
+{% else %}<p>Disetujui oleh {{ p.reviewed_by }}{% if p.reviewed_at %} pada {{ p.reviewed_at.strftime('%d/%m/%Y %H:%M') }}{% endif %}. Masa terkunci.</p>
+{% if has_role('ADMIN') %}<form method="post" action="{{ url_for('main.unlock', pid=p.id) }}"><button class="danger sm">Buka kunci</button></form>{% endif %}
+<form method="post" action="{{ url_for('main.send') }}"><input type="hidden" name="pids" value="{{ p.id }}"><button>Kirim email ({{ p.entity.email_to }})</button></form>{% endif %}
+</div>
+
+<div class="card"><h2>Output</h2>
+<form method="post" action="{{ url_for('main.generate', pid=p.id) }}"><button>Generate XML + PDF + XLSX</button></form>
+{% if outs %}<p>Versi terbaru: v{{ outs.XML.version }} ({{ outs.XML.status }})<br>
+{% for k in ['XML','PDF','XLSX'] %}<a href="{{ url_for('main.output_file', oid=outs[k].id) }}">{{ k }}</a> {% endfor %}</p>{% endif %}
+</div></div>
+
+<div class="card"><h2>Riwayat versi</h2><table><tr><th>Waktu</th><th>Jenis</th><th>Versi</th><th>Status</th><th>Oleh</th><th>File / penerima</th></tr>
+{% for o in history %}<tr><td>{{ o.created_at.strftime('%d/%m/%Y %H:%M') if o.created_at }}</td><td>{{ o.kind }}</td><td>{{ o.version or '' }}</td><td>{{ o.status }}</td><td>{{ o.created_by }}</td>
+<td>{% if o.file_path %}<a href="{{ url_for('main.output_file', oid=o.id) }}">unduh</a> <span class="muted">sha256 {{ o.sha256[:12] }}…</span>{% else %}{{ o.recipients }}{% endif %}</td></tr>{% endfor %}</table></div>
+<p><a href="{{ url_for('main.audit', table='period', row=p.id) }}">Audit trail masa ini</a></p>
+{% endblock %}

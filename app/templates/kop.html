@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block body %}<h1>Kode Objek Pajak</h1>
+<div class="card scroll"><table><tr><th>KOP</th><th>Nama</th><th>Jenis</th><th>Final</th><th class="n">Tarif</th><th>Verifikasi Coretax</th></tr>
+{% for k in kops %}<tr><td>{{ k.code }}</td><td>{{ k.name }}</td><td>{{ k.tax_type }}</td><td>{{ 'Ya' if k.is_final else '' }}</td><td class="n">{{ '%g'|format(k.rate*100) }}%</td><td>{{ k.verified or '' }}</td></tr>{% endfor %}</table></div>
+{% if has_role('TAX_SUPPORT') %}<form method="post" class="card"><h2>Tambah / ubah KOP</h2><div class="grid">
+<div><label>Kode</label><input name="code" required placeholder="24-104-xx"></div><div><label>Nama</label><input name="name" required></div>
+<div><label>Jenis</label><select name="tax_type"><option>PS23</option><option>PS4_2</option><option>PS21</option></select></div>
+<div><label>Tarif (%)</label><input name="rate" required></div><div><label>Status verifikasi</label><input name="verified"></div>
+<div><label><input type="checkbox" name="is_final" value="1"> Final</label></div></div><p><button>Simpan</button></p>
+<p class="muted">KOP sewa tanah/bangunan = 28-403-02 (28-403-01 ditolak Coretax).</p></form>{% endif %}{% endblock %}

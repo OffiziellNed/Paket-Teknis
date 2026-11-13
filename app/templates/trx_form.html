@@ -1,0 +1,66 @@
+{% extends 'base.html' %}{% block body %}
+{% set v = f or {} %}
+<h1>{{ 'Ubah' if t else 'Tambah' }} transaksi – {{ p.label }}</h1>
+<form method="post" class="card" autocomplete="off">
+<input type="hidden" name="vendor_id" id="vendor_id" value="{{ v.vendor_id or (t.vendor_id if t else '') }}">
+<div class="grid">
+<div class="ac"><label>Lawan transaksi (ketik nama / alias / NPWP)</label>
+<input name="name" id="name" required value="{{ v.name or (t.name if t else '') }}" style="width:100%"><div class="ac-list" id="aclist" hidden></div></div>
+<div><label>NPWP</label><input name="npwp" id="npwp" required value="{{ v.npwp or (t.npwp_display if t else '') }}" style="width:100%"></div>
+<div><label>Section</label><select name="section" id="section">{% for k, l in SECTIONS.items() %}<option value="{{ k }}" {{ 'selected' if (v.section or (t.section if t else ''))==k }}>{{ l }}</option>{% endfor %}</select></div>
+<div><label>KOP</label><select name="kop" id="kop"><option value="">–</option>{% for k in kops %}<option value="{{ k.code }}" data-rate="{{ k.rate }}" {{ 'selected' if (v.kop or (t.kop if t else ''))==k.code }}>{{ k.code }} – {{ k.name[:45] }} ({{ '%g'|format(k.rate*100) }}%)</option>{% endfor %}</select></div>
+<div><label>Tarif (%)</label><input name="rate" id="rate" required value="{{ v.rate or ('%g'|format(t.rate*100) if t else '') }}"></div>
+<div><label>Jenis jasa</label><input name="service_type" id="service_type" value="{{ v.service_type or (t.service_type if t else '') }}" style="width:100%"></div>
+<div><label>Tanggal invoice</label><input type="date" name="invoice_date" id="invoice_date" required value="{{ v.invoice_date or (t.invoice_date.isoformat() if t else '') }}"></div>
+<div><label>No invoice</label><input name="invoice_no" id="invoice_no" required value="{{ v.invoice_no or (t.invoice_no if t else '') }}" style="width:100%">
+<div id="invmsg" class="muted"></div></div>
+<div><label>DPP (harga jual sebelum PPN)</label><input name="dpp" id="dpp" required value="{{ v.dpp or (('%f'|format(t.dpp)).rstrip('0').rstrip('.') if t else '') }}"><div id="pphcalc" class="muted"></div></div>
+<div><label>Tanggal pemotongan (kosong = otomatis)</label><input type="date" name="withholding_date" value="{{ v.withholding_date or (t.withholding_date.isoformat() if t else '') }}">
+<div class="muted">Invoice di luar masa → akhir bulan masa</div></div>
+<div id="finalbox"><label>PPh Final (Mahesa)</label><select name="final_choice" id="final_choice">
+<option value="DIKENAKAN" {{ 'selected' if (v.final_choice or (t.final_choice if t else ''))!='DIBEBASKAN' }}>Dikenakan PPh Final 10%</option>
+<option value="DIBEBASKAN" {{ 'selected' if (v.final_choice or (t.final_choice if t else ''))=='DIBEBASKAN' }}>Dibebaskan</option></select></div>
+<div><label>No faktur pajak</label><input name="faktur_no" value="{{ v.faktur_no or (t.faktur_no if t and t.faktur_no else '') }}"></div>
+<div><label>Deskripsi</label><input name="description" value="{{ v.description or (t.description if t and t.description else '') }}" style="width:100%"></div>
+<div><label>Notes</label><input name="notes" id="notes" value="{{ v.notes or (t.notes if t and t.notes else '') }}" style="width:100%"></div>
+</div>
+<div class="card" id="histbox" hidden style="margin-top:12px"><b>5 invoice terakhir vendor</b> <span id="special" class="muted"></span>
+<table id="hist"></table><p>Prediksi nomor berikutnya: <a href="#" id="pred"></a></p></div>
+<p class="row">{% if t and t.draft_status=='PERLU_KONFIRMASI' %}<button name="confirm" value="1">Simpan & konfirmasi</button>{% endif %}
+<button>Simpan</button>{% if not t %}<button class="sec" name="again" value="1">Simpan & tambah lagi</button>{% endif %}
+<a class="btn sec" href="{{ url_for('main.period', pid=p.id) }}">Batal</a></p>
+</form>
+{% if t %}<form method="post" action="{{ url_for('main.trx_delete', pid=p.id, tid=t.id) }}" onsubmit="return confirm('Hapus transaksi ini?')"><button class="danger sm">Hapus transaksi</button></form>{% endif %}
+<script>
+const M={{ p.month }},Y={{ p.year }},TID={{ t.id if t else 'null' }};
+const $=id=>document.getElementById(id);
+let timer,items=[];
+function money(x){return Math.round(x).toLocaleString('id-ID')}
+function calc(){const d=parseFloat(($('dpp').value||'0').replace(/\./g,'').replace(',','.'))||parseFloat($('dpp').value)||0;
+ let r=parseFloat(($('rate').value||'0').replace(',','.'));if(r>=1)r=r/100;$('pphcalc').textContent=d?('PPh = '+money(d*r)+' (dibulatkan, 0,5 ke atas)'):'';}
+function toggleFinal(){$('finalbox').style.display=$('section').value=='FINAL_4_2'?'':'none'}
+async function pick(v){$('vendor_id').value=v.id;$('name').value=v.name;$('npwp').value=v.npwp_display||v.npwp16;
+ if(v.default_section)$('section').value=v.default_section; if(v.default_service)$('service_type').value=v.default_service;
+ if(v.default_kop){$('kop').value=v.default_kop;} const opt=$('kop').selectedOptions[0];
+ $('rate').value=v.default_rate!=null?(v.default_rate*100):(opt&&opt.dataset.rate?opt.dataset.rate*100:'');
+ $('aclist').hidden=true;$('special').textContent=v.special||'';
+ if(!v.withhold_pph23)alert(v.name+' tidak dipotong PPh 23 menurut master vendor.');
+ toggleFinal();calc();await hist();}
+async function hist(){const id=$('vendor_id').value;if(!id)return;
+ const r=await fetch(`{{ url_for('main.api_vendor_invoices', vid=0) }}`.replace('/0/','/'+id+'/')+`?month=${M}&year=${Y}&inv=${encodeURIComponent($('invoice_no').value)}`+(TID?`&tid=${TID}`:''));
+ const j=await r.json();$('histbox').hidden=false;
+ $('hist').innerHTML='<tr><th>Invoice</th><th>Tanggal</th><th>Masa</th><th class=n>DPP</th><th>PPh Final</th></tr>'+j.last.map(x=>`<tr><td>${x.invoice_no}</td><td>${x.date}</td><td>${x.masa}</td><td class=n>${x.dpp!=null?money(x.dpp):''}</td><td>${x.final_choice||''}</td></tr>`).join('');
+ $('pred').textContent=j.prediction||'-';
+ $('invmsg').innerHTML=j.color?`<span class="dot ${j.color}"></span><span class="${j.color}">${j.message}</span>`:'';
+ const fc=j.last.find(x=>x.final_choice); if(fc && !TID) $('final_choice').value=fc.final_choice;}
+$('pred').onclick=e=>{e.preventDefault();$('invoice_no').value=$('pred').textContent;hist()};
+$('name').addEventListener('input',()=>{clearTimeout(timer);$('vendor_id').value='';timer=setTimeout(async()=>{
+ const q=$('name').value.trim();if(q.length<2){$('aclist').hidden=true;return}
+ items=await (await fetch(`{{ url_for('main.api_vendors') }}?q=${encodeURIComponent(q)}`)).json();
+ $('aclist').innerHTML=items.map((v,i)=>`<div data-i="${i}">${v.name} <span class="muted">${v.npwp16} · ${v.group||''}${v.withhold_pph23?'':' · tidak dipotong'}</span></div>`).join('')||'<div class="muted">Vendor baru – isi manual</div>';
+ $('aclist').hidden=false;},200)});
+$('aclist').addEventListener('click',e=>{const d=e.target.closest('[data-i]');if(d)pick(items[+d.dataset.i])});
+$('kop').onchange=()=>{const o=$('kop').selectedOptions[0];if(o&&o.dataset.rate)$('rate').value=o.dataset.rate*100;calc()};
+$('invoice_no').addEventListener('change',hist);['dpp','rate'].forEach(i=>$(i).addEventListener('input',calc));
+$('section').onchange=toggleFinal;toggleFinal();calc();hist();
+</script>{% endblock %}

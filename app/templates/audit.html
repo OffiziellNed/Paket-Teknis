@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block body %}<h1>Audit trail</h1>
+<div class="card scroll"><table><tr><th>Waktu (UTC)</th><th>Oleh</th><th>Tabel</th><th>ID</th><th>Aksi</th><th>Perubahan</th></tr>
+{% for l in logs %}<tr><td class="nowrap">{{ l.at.strftime('%d/%m/%Y %H:%M:%S') if l.at }}</td><td>{{ l.actor }}</td><td>{{ l.table_name }}</td><td>{{ l.row_id or '' }}</td><td>{{ l.action }}</td>
+<td class="muted" style="max-width:700px">{% if l.action=='UPDATE' %}{% for k,v in (l.new_value or {}).items() %}{{ k }}: {{ (l.old_value or {}).get(k) }} → {{ v }}<br>{% endfor %}{% else %}{{ (l.new_value or l.old_value)|tojson|truncate(300) }}{% endif %}</td></tr>{% endfor %}</table></div>{% endblock %}

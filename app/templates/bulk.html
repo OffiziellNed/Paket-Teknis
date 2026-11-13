@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% block body %}
+<h1>Upload massal transaksi</h1>
+<div class="card"><form method="post" enctype="multipart/form-data" class="row">
+<div><label>File (.xlsx template atau .csv dengan header yang sama)</label><input type="file" name="file" accept=".xlsx,.csv" required></div>
+<button>Preview</button><a href="{{ url_for('main.bulk_template') }}">Unduh template</a></form>
+<p class="muted">Kolom kuning wajib. NPWP/Jenis Jasa/KOP boleh kosong bila vendor ada di master. Tanggal pemotongan kosong = otomatis. Sheet PPh21_Bulanan mengisi PPh 21 per masa.</p></div>
+{% if res is not none %}
+<div class="kpi" style="margin-bottom:12px"><div><span>OK</span><b class="hijau">{{ stats.OK }}</b></div><div><span>Peringatan</span><b class="kuning">{{ stats.Peringatan }}</b></div><div><span>Error (dilewati)</span><b class="merah">{{ stats.Error }}</b></div>
+<div><span>PPh 21 bulanan</span><b>{{ pph21|length }}</b></div></div>
+<form method="post" action="{{ url_for('main.bulk_commit', token=token) }}" class="card row">
+<div><label>Mode</label><select name="mode"><option value="TAMBAH">Tambah (update bila NPWP+invoice sudah ada)</option><option value="GANTI">Ganti masa (hapus semua transaksi masa terkait lalu isi ulang)</option></select></div>
+<button {{ 'disabled' if not (stats.OK + stats.Peringatan) }}>Simpan {{ stats.OK + stats.Peringatan }} baris</button>
+{% if stats.Error or stats.Peringatan %}<a class="btn sec" href="{{ url_for('main.bulk_koreksi', token=token) }}">Unduh file koreksi</a>{% endif %}</form>
+<div class="card scroll"><table><tr><th>Baris</th><th>Status</th><th>Pesan</th><th>Entitas</th><th>Masa</th><th>Section</th><th>Invoice</th><th>Lawan transaksi</th><th class="n">DPP</th><th>KOP</th></tr>
+{% for r in res %}<tr><td>{{ r.line }}</td><td class="{{ {'OK':'hijau','Peringatan':'kuning','Error':'merah'}[r.status] }}"><b>{{ r.status }}</b></td><td>{{ r.messages|join('; ') }}</td>
+<td>{{ r.raw.get('Entitas','') }}</td><td>{{ r.raw.get('Masa (1-12)','') }}/{{ r.raw.get('Tahun','') }}</td><td>{{ r.raw.get('Section','') }}</td><td>{{ r.raw.get('No Invoice','') }}</td><td>{{ r.raw.get('Lawan Transaksi','') }}</td>
+<td class="n">{{ r.raw.get('DPP (Rp)','') }}</td><td>{{ r.data.kop if r.data else r.raw.get('KOP','') }}</td></tr>{% endfor %}</table></div>
+{% endif %}{% endblock %}

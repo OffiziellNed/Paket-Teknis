@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block body %}<h1>Penanda tangan</h1>
+<div class="card"><table><tr><th>Nama</th><th>Jabatan</th><th>Email (akun M365)</th><th>Aktif</th><th>Ttd</th><th></th></tr>
+{% for s in signers %}<tr><form method="post"><input type="hidden" name="id" value="{{ s.id }}">
+<td><input name="name" value="{{ s.name }}"></td><td><input name="title" value="{{ s.title }}" style="width:280px"></td><td><input name="email" value="{{ s.email or '' }}"></td>
+<td><input type="checkbox" name="active" value="1" {{ 'checked' if s.active }}></td><td>{{ 'ada' if s.signature_image_path else '-' }}</td><td><button class="sm">Simpan</button></td></form></tr>{% endfor %}
+<tr><form method="post"><td><input name="name" required placeholder="Nama"></td><td><input name="title" required placeholder="Jabatan"></td><td><input name="email"></td><td><input type="checkbox" name="active" value="1" checked></td><td></td><td><button class="sm">Tambah</button></td></form></tr></table>
+<p class="muted">Gambar tanda tangan di-upload sendiri oleh pemiliknya lewat halaman Profil.</p></div>{% endblock %}

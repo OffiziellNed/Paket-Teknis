@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block body %}<h1>User & role</h1>
+<div class="card"><table><tr><th>Email</th><th>Nama</th><th>Role</th><th>Aktif</th><th></th></tr>
+{% for u in users %}<tr><form method="post"><input type="hidden" name="id" value="{{ u.id }}"><td>{{ u.email }}</td><td><input name="name" value="{{ u.name or '' }}"></td>
+<td><select name="role">{% for k,l in ROLES.items() %}<option value="{{ k }}" {{ 'selected' if u.role==k }}>{{ l }}</option>{% endfor %}</select></td>
+<td><input type="checkbox" name="active" value="1" {{ 'checked' if u.active }}></td><td><button class="sm">Simpan</button></td></form></tr>{% endfor %}
+<tr><form method="post"><td><input name="email" required placeholder="nama@qoin.id"></td><td><input name="name"></td><td><select name="role">{% for k,l in ROLES.items() %}<option value="{{ k }}">{{ l }}</option>{% endfor %}</select></td><td><input type="checkbox" name="active" value="1" checked></td><td><button class="sm">Tambah</button></td></form></tr>
+</table><p class="muted">User baru yang login SSO otomatis mendapat role Tax Support.</p></div>{% endblock %}

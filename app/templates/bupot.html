@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block body %}<h1>Import No Bupot dari export Coretax</h1>
+<div class="card"><form method="post" enctype="multipart/form-data" class="row"><div><label>File export "Data Pemotongan" Coretax (.xlsx)</label><input type="file" name="file" accept=".xlsx" required></div><button>Preview</button></form>
+<p class="muted">Dicocokkan per entitas (NITKU) + masa + NPWP + DPP (+KOP bila ganda). Header dibaca berdasarkan nama kolom.</p></div>
+{% if res is not none %}
+{% if not_approved %}<div class="flash warn">Masa belum di-approve: {{ not_approved|join(', ') }}. Disarankan import setelah Approve.</div>{% endif %}
+<form method="post" action="{{ url_for('main.bupot_commit', token=token) }}">
+<div class="card scroll"><p><b>{{ matched }}/{{ res|length }}</b> cocok.</p><table><tr><th>No Bupot</th><th>Masa</th><th>Nama (Coretax)</th><th>KOP</th><th class="n">DPP</th><th class="n">PPh</th><th>Status</th><th>Transaksi</th><th>Status/TTE</th></tr>
+{% for r in res %}{% set e = r.export %}<tr><td>{{ e.bupot }}</td><td>{{ e.entitas }} {{ e.masa }}/{{ e.tahun }}</td><td>{{ e.nama }}</td><td>{{ e.kop }}</td><td class="n">{{ e.dpp|rp }}</td><td class="n">{{ e.pph|rp }}</td>
+<td class="{{ 'hijau' if r.status=='Cocok' else 'kuning' }}"><b>{{ r.status }}</b>{% if r.catatan %}<div class="muted">{{ r.catatan }}</div>{% endif %}</td>
+<td>{% if r.status=='Pilih manual' %}<select name="manual_{{ loop.index0 }}"><option value="">–</option>{% for c in r.candidates %}<option value="{{ c }}">{{ trx[c].invoice_no }}</option>{% endfor %}</select>
+{% elif r.status=='Nomor beda dengan data lama' %}{{ r.invoice_no }} <label style="display:inline"><input type="checkbox" name="overwrite" value="{{ r.transaction_id }}"> timpa {{ r.old_bupot }}</label>
+{% else %}{{ r.invoice_no }}{% endif %}</td><td>{{ e.status }} / {{ e.tte }}</td></tr>{% endfor %}</table>
+{% if belum %}<p>Transaksi belum terbit bupot: {{ belum|map(attribute='invoice_no')|join(', ') }}</p>{% endif %}</div>
+<button>Isi No Bupot & regenerate PDF/XLSX</button></form>{% endif %}{% endblock %}

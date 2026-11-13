@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% block body %}
+<h1>Tanda tangan – {{ p.label }}</h1>
+<form method="post" class="card">
+{% if presets %}<div class="row"><div><label>Pakai preset</label><select name="preset_id"><option value="">– atur manual di bawah –</option>{% for pr in presets %}<option value="{{ pr.id }}">{{ pr.name }}{{ ' (default)' if pr.is_default }}</option>{% endfor %}</select></div></div>{% endif %}
+<div class="row" style="margin-top:10px"><div><label>Kota</label><input name="city" value="{{ city }}"></div>
+<div><label>Tanggal tanda tangan</label><select name="date_mode" id="dm"><option value="HARI_INI" {{ 'selected' if not p.signature_date }}>Hari ini (WIB saat PDF dibuat)</option><option value="PILIH" {{ 'selected' if p.signature_date }}>Pilih tanggal</option></select></div>
+<div><label>&nbsp;</label><input type="date" name="sig_date" id="sd" value="{{ p.signature_date.isoformat() if p.signature_date else '' }}"></div></div>
+<p class="muted">Tanggal pilihan disimpan per masa dan dipakai lagi saat PDF dibuat ulang. Peringatan muncul bila sebelum akhir masa.</p>
+<table><tr><th>#</th><th>Label</th><th>Penanda tangan</th><th>Mode</th><th>Cetak gambar hanya setelah Approve</th></tr>
+{% for i in range(1,5) %}{% set b = blocks[i-1] if blocks|length >= i else {} %}
+<tr><td>{{ i }}</td><td><input name="label_{{ i }}" list="labels" value="{{ b.get('label','') }}" placeholder="(kosong = blok tidak dipakai)"></td>
+<td><select name="signer_{{ i }}"><option value="">–</option>{% for s in signers %}<option value="{{ s.id }}" {{ 'selected' if b.get('signer_id')==s.id }}>{{ s.name }} – {{ s.title }}</option>{% endfor %}</select></td>
+<td><select name="mode_{{ i }}">{% for m,l in [('BLANK','Kosong'),('IMAGE','Gambar ttd'),('IMAGE_STAMP','Gambar ttd + stempel')] %}<option value="{{ m }}" {{ 'selected' if b.get('mode','BLANK')==m }}>{{ l }}</option>{% endfor %}</select></td>
+<td><input type="checkbox" name="approval_{{ i }}" value="1" {{ 'checked' if b.get('requires_approval') }}></td></tr>{% endfor %}</table>
+<datalist id="labels"><option>Dibuat oleh</option><option>Diperiksa oleh</option><option>Disetujui oleh</option><option>Mengetahui</option></datalist>
+<p class="muted">Setiap orang hanya bisa memakai gambar ttd-nya sendiri: gambar tercetak bila mode diatur oleh pemilik ttd (atau, untuk blok pemeriksa, setelah ia meng-approve). Sebelum Approve PDF diberi tanda DRAFT.</p>
+<div class="row"><div><label>Simpan juga sebagai preset entitas (nama)</label><input name="save_preset"></div><button>Simpan</button></div>
+</form>{% endblock %}

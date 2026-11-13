@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block body %}<h1>Entitas</h1>
+{% for e in ents %}<form method="post" enctype="multipart/form-data" class="card"><input type="hidden" name="id" value="{{ e.id }}"><h2>{{ e.code }}</h2><div class="grid">
+<div><label>Nama legal</label><input name="legal_name" value="{{ e.legal_name }}" style="width:100%"></div>
+<div><label>d/h</label><input name="former_name" value="{{ e.former_name or '' }}" style="width:100%"></div>
+<div><label>NPWP16</label><input name="npwp16" value="{{ e.npwp16 }}"></div>
+<div><label>Judul laporan</label><input name="report_title" value="{{ e.report_title }}" style="width:100%"></div>
+<div><label>Gaya laporan</label><select name="report_style"><option {{ 'selected' if e.report_style=='UNIFIKASI' }}>UNIFIKASI</option><option {{ 'selected' if e.report_style=='SIMPLE' }}>SIMPLE</option></select></div>
+<div><label>Nomor urut sejak tahun (kosong = mulai 1 tiap masa)</label><input name="numbering_since_year" value="{{ e.numbering_since_year or '' }}"></div>
+<div><label>Email penerima (koma)</label><input name="email_to" value="{{ e.email_to or '' }}" style="width:100%"></div>
+<div><label>Stempel (PNG)</label><input type="file" name="stamp" accept=".png"></div></div><p><button>Simpan</button></p></form>{% endfor %}{% endblock %}

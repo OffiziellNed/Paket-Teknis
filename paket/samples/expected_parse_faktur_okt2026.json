@@ -1,0 +1,293 @@
+[
+  {
+    "file": "InputTaxInvoice-146188d2-5db8-4c2f-b010-4202fdb15ecd-0015430614062000-04002600424440146-0855609921034000.pdf",
+    "no_faktur": "04002600424440146",
+    "npwp_penjual": "0015430614062000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "RINTIS SEJAHTERA",
+    "tanggal": "2026-10-12",
+    "harga_jual": 5000.0,
+    "dpp_ppn": 4583.0,
+    "ppn": 550.0,
+    "referensi": "AR#261003803#5422-003803/I/RS/X/26",
+    "item": [
+      "Administration Virtual Account QOIN - 15617"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-16974824-37d9-439a-b7af-d428fa40cea3-0021610332062000-08002600418249132-0855609921034000.pdf",
+    "no_faktur": "08002600418249132",
+    "npwp_penjual": "0021610332062000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "LEMBAGA PENGEMBANGAN PERBANKAN INDONESIA",
+    "tanggal": "2026-10-06",
+    "harga_jual": 2200000.0,
+    "dpp_ppn": 2016667.0,
+    "ppn": 242000.0,
+    "referensi": "24/0055/10/DPNL/INV",
+    "item": [
+      "Jasa Pendidikan"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-271ac0b4-3ee3-4669-8c2e-6424a7cdcd8f-0031880503012000-04002600408148944-0855609921034000.pdf",
+    "no_faktur": "04002600408148944",
+    "npwp_penjual": "0031880503012000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "MAHESA CIPTA",
+    "tanggal": "2026-10-02",
+    "harga_jual": 6594212.0,
+    "dpp_ppn": 6044694.0,
+    "ppn": 725363.0,
+    "referensi": "273/MC-QDI/X/2026",
+    "item": [
+      "Listrik 1 - 30 September 2026"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-2f3e619e-1ccd-4c62-ae9c-07e73af50e88-0016149734062000-04002600400474947-0855609921034000.pdf",
+    "no_faktur": "04002600400474947",
+    "npwp_penjual": "0016149734062000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "ARTHA TELEKOMINDO",
+    "tanggal": "2026-10-01",
+    "harga_jual": 14000000.0,
+    "dpp_ppn": 12833333.0,
+    "ppn": 1540000.0,
+    "referensi": "260024008",
+    "item": [
+      "Internet 50 Mbps"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-32697d42-9986-429d-8f2a-52fcd44a1110-0392813465034000-04002600455333640-0855609921034000.pdf",
+    "no_faktur": "04002600455333640",
+    "npwp_penjual": "0392813465034000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "DOTCOM SOLUSI KREATIF",
+    "tanggal": "2026-10-14",
+    "harga_jual": 1670000.0,
+    "dpp_ppn": 1530833.0,
+    "ppn": 183700.0,
+    "referensi": "Inv. 0530/DSK/X/26",
+    "item": []
+  },
+  {
+    "file": "InputTaxInvoice-41047516-be6c-4171-88e8-80566955f424-0013084496091000-04002600462454655-0855609921034000.pdf",
+    "no_faktur": "04002600462454655",
+    "npwp_penjual": "0013084496091000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "BANK CENTRAL ASIA",
+    "tanggal": "2026-10-31",
+    "harga_jual": 17500.0,
+    "dpp_ppn": 16042.0,
+    "ppn": 1925.0,
+    "referensi": "",
+    "item": [
+      "JASA VIRTUAL ACCOUNT TOP UP QOIN BLN 10 2026"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-59e8fa1a-6626-4cfc-acaa-07583784d622-0315537241402000-04002600457517169-0855609921034000.pdf",
+    "no_faktur": "04002600457517169",
+    "npwp_penjual": "0315537241402000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "PEMBAYARAN LINTAS USAHA SUKSES",
+    "tanggal": "2026-10-31",
+    "harga_jual": 166.0,
+    "dpp_ppn": 152.0,
+    "ppn": 18.0,
+    "referensi": "001/PLUS/2026100032",
+    "item": []
+  },
+  {
+    "file": "InputTaxInvoice-5ca77353-6dd3-4576-bfce-3e41d45ca1ab-0031880503012000-08002600408158597-0855609921034000.pdf",
+    "no_faktur": "08002600408158597",
+    "npwp_penjual": "0031880503012000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "MAHESA CIPTA",
+    "tanggal": "2026-10-02",
+    "harga_jual": 17697.0,
+    "dpp_ppn": 16222.0,
+    "ppn": 1947.0,
+    "referensi": "281/MC-QDI/X/2026",
+    "item": [
+      "Air 1 - 30 September 2026"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-79360808-0d06-479a-a9c2-08a7fd5ef473-0031881097012000-04002600455185915-0855609921034000.pdf",
+    "no_faktur": "04002600455185915",
+    "npwp_penjual": "0031881097012000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "SENTRAL LINK SOLUTIONS",
+    "tanggal": "2026-10-27",
+    "harga_jual": 170659002.0,
+    "dpp_ppn": 156437419.0,
+    "ppn": 18772490.0,
+    "referensi": "INV/234/QDI-PHC/X/2026",
+    "item": [
+      "Pemakaian Huawei Cloud periode 01-30 September 2026"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-84428f46-0d70-411f-8802-144ccf7ae259-0015430614062000-04002600431060608-0855609921034000.pdf",
+    "no_faktur": "04002600431060608",
+    "npwp_penjual": "0015430614062000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "RINTIS SEJAHTERA",
+    "tanggal": "2026-10-15",
+    "harga_jual": 6000000.0,
+    "dpp_ppn": 5500000.0,
+    "ppn": 660000.0,
+    "referensi": "AR#261003897#5521-003897/I/RS/X/26",
+    "item": [
+      "Annual Fee for QRIS"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-8e1aacbc-7e0e-458e-a707-c04c70b200a0-0840718738071000-04002600412937244-0855609921034000.pdf",
+    "no_faktur": "04002600412937244",
+    "npwp_penjual": "0840718738071000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "PENYELESAIAN TRANSAKSI ELEKTRONIK NASIONAL ( PTEN )",
+    "tanggal": "2026-10-05",
+    "harga_jual": 9477796.0,
+    "dpp_ppn": 8687980.0,
+    "ppn": 1042558.0,
+    "referensi": "PTEN.INV/Q116/10/2026|Fee LS QRIS Domestik dari ALTO.",
+    "item": []
+  },
+  {
+    "file": "InputTaxInvoice-947a0224-e151-48bd-ab1f-32835883d138-0016264426015000-04002600462917055-0855609921034000.pdf",
+    "no_faktur": "04002600462917055",
+    "npwp_penjual": "0016264426015000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "ALTO NETWORK",
+    "tanggal": "2026-10-31",
+    "harga_jual": 20343.0,
+    "dpp_ppn": 18648.0,
+    "ppn": 2238.0,
+    "referensi": "P126.00472",
+    "item": [
+      "QR MPM 01.10.2026 - 31.10.2026"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-9720b8f2-eff4-4d1c-a8d1-f026399254d2-0947794681034000-04002600426938729-0855609921034000.pdf",
+    "no_faktur": "04002600426938729",
+    "npwp_penjual": "0947794681034000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "LOYAL MEMBER INDONESIA",
+    "tanggal": "2026-10-14",
+    "harga_jual": 13841.0,
+    "dpp_ppn": 12688.0,
+    "ppn": 1523.0,
+    "referensi": "Invoice : 368-I/LMI/X/26",
+    "item": [
+      "Pembayaran Sharing Fee periode Mei & Juni 2026"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-987854cb-abd0-4181-8bc7-34d91cc99fd4-0015430614062000-04002600457711200-0855609921034000.pdf",
+    "no_faktur": "04002600457711200",
+    "npwp_penjual": "0015430614062000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "RINTIS SEJAHTERA",
+    "tanggal": "2026-10-31",
+    "harga_jual": 18913.0,
+    "dpp_ppn": 17337.0,
+    "ppn": 2080.0,
+    "referensi": "AR#261003968#5614-003968/I/RS/X/26",
+    "item": [
+      "Transaction Fee – QRIS"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-a80e20ce-be79-4c92-a216-56ab3e28281c-0016149734062000-04002600400479509-0855609921034000.pdf",
+    "no_faktur": "04002600400479509",
+    "npwp_penjual": "0016149734062000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "ARTHA TELEKOMINDO",
+    "tanggal": "2026-10-01",
+    "harga_jual": 14500000.0,
+    "dpp_ppn": 13291667.0,
+    "ppn": 1595000.0,
+    "referensi": "260024808",
+    "item": [
+      "Internet 50 Mbps (Package Basic) di Gd. Lot 18 Tower A Lt.9"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-ab6356f3-fb81-441e-81fe-256ca02bed07-0911762276012000-04002600445119805-0855609921034000.pdf",
+    "no_faktur": "04002600445119805",
+    "npwp_penjual": "0911762276012000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "QONTAK TUMBUH MAKMUR",
+    "tanggal": "2026-10-22",
+    "harga_jual": 16200000.0,
+    "dpp_ppn": 4950000.0,
+    "ppn": 594000.0,
+    "referensi": "QTM-118724",
+    "item": [
+      "MIGR-QSales - Customer Interaction",
+      "MIGR-QSales - Business Operational"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-b3c58091-9b9a-4e48-9d2a-467f05453c28-0031881097012000-04002600435404723-0855609921034000.pdf",
+    "no_faktur": "04002600435404723",
+    "npwp_penjual": "0031881097012000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "SENTRAL LINK SOLUTIONS",
+    "tanggal": "2026-10-14",
+    "harga_jual": 170868600.0,
+    "dpp_ppn": 156629550.0,
+    "ppn": 18795546.0,
+    "referensi": "INV/231/QDI-PHC/X/2026",
+    "item": [
+      "Pemakaian Huawei Cloud periode 01-31 Agustus 2026"
+    ]
+  },
+  {
+    "file": "InputTaxInvoice-d6f9c604-b8b2-475c-b2f5-2f60ece2df5a-0840718738071000-04002600412862862-0855609921034000.pdf",
+    "no_faktur": "04002600412862862",
+    "npwp_penjual": "0840718738071000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "PENYELESAIAN TRANSAKSI ELEKTRONIK NASIONAL ( PTEN )",
+    "tanggal": "2026-10-05",
+    "harga_jual": 4927597.0,
+    "dpp_ppn": 4516964.0,
+    "ppn": 542036.0,
+    "referensi": "PTEN.INV/Q115/10/2026|Fee LS QRIS Domestik dari RINTIS.",
+    "item": []
+  },
+  {
+    "file": "InputTaxInvoice-e88ea2cc-7fbc-4938-85ff-6cc3d2957ef0-0010000131093000-04002600409498312-0855609921034000.pdf",
+    "no_faktur": "04002600409498312",
+    "npwp_penjual": "0010000131093000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "TELKOM INDONESIA (PERSERO) TBK",
+    "tanggal": "2026-10-05",
+    "harga_jual": 119700.0,
+    "dpp_ppn": 109725.0,
+    "ppn": 13167.0,
+    "referensi": "",
+    "item": []
+  },
+  {
+    "file": "InputTaxInvoice-fcfec2e2-28f7-4659-8c7a-44033d9211c4-0911762276012000-04002600407552886-0855609921034000.pdf",
+    "no_faktur": "04002600407552886",
+    "npwp_penjual": "0911762276012000",
+    "npwp_pembeli": "0855609921034000",
+    "nama_penjual": "QONTAK TUMBUH MAKMUR",
+    "tanggal": "2026-10-06",
+    "harga_jual": 549242.0,
+    "dpp_ppn": 503472.0,
+    "ppn": 60417.0,
+    "referensi": "QTM-115204",
+    "item": [
+      "Top Up WhatsApp Conversation Credit (Postpaid)"
+    ]
+  }
+]

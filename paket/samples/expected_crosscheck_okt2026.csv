@@ -1,0 +1,24 @@
+entitas,no_invoice,lawan_transaksi,dpp_rekap,no_faktur,harga_jual_faktur,status,catatan
+QDI,260024008,Artha Telekomindo,14000000,04002600400474947,14000000,Cocok,
+QDI,260024808,Artha Telekomindo,14500000,04002600400479509,14500000,Cocok,
+QDI,15/KTI/X/2026,PT Konsultasi Teknologi Indonesia,75000000,,,Faktur belum ada,Nomor urut lebih kecil dari bulan lalu (29/KTI/IX/2026) - beri peringatan
+QDI,0460/DSK/IX/26,PT Dotcom Solusi Kreatif,710000,,,Faktur belum ada,Faktur Dotcom yang ada di zip untuk invoice 0530/DSK/X/26
+QDI,003803/I/RS/X/26,PT Rintis Sejahtera,5000,04002600424440146,5000,Cocok,Referensi faktur AR#261003803#5422-003803/I/RS/X/26 memuat no invoice
+QDI,AR#261003897#5521-003897/I/RS/X/26,PT Rintis Sejahtera,,04002600431060608,6000000,Tidak dipotong (ditandai user),Annual Fee for QRIS - tidak dipotong PPh 23 (revisi 6-Nov-2026)
+QDI,AR#261003968#5614-003968/I/RS/X/26,PT Rintis Sejahtera,18913,04002600457711200,18913,Cocok (draft otomatis QRIS),Transaction Fee QRIS
+QDI,PI26.00472,PT ALTO Network,20343,04002600462917055,20343,Cocok (draft otomatis QRIS),Referensi faktur tertulis P126.00472 - sarankan koreksi P1->PI
+QDI,PTEN.INV/Q116/10/2026|Fee LS QRIS Domestik dari ALTO.,PT Penyelesaian Transaksi Elektronik Nasional,9477796,04002600412937244,9477796,Cocok (draft otomatis QRIS),
+QDI,PTEN.INV/Q115/10/2026|Fee LS QRIS Domestik dari RINTIS.,PT Penyelesaian Transaksi Elektronik Nasional,4927597,04002600412862862,4927597,Cocok (draft otomatis QRIS),
+QDI,273/MC-QDI/X/2026,PT Mahesa Cipta,6594211,04002600408148944,6594212,Selisih nilai,Selisih Rp 1
+QDI,281/MC-QDI/X/2026,PT Mahesa Cipta,17697,08002600408158597,17697,Cocok,
+QDI,INV/231/QDI-PHC/X/2026,Sentral Link Solutions,,04002600435404723,170868600,Faktur tanpa transaksi,Huawei Cloud Agustus 2026
+QDI,INV/234/QDI-PHC/X/2026,Sentral Link Solutions,,04002600455185915,170659002,Faktur tanpa transaksi,Huawei Cloud September 2026
+QDI,Inv. 0530/DSK/X/26,Dotcom Solusi Kreatif,,04002600455333640,1670000,Faktur tanpa transaksi,
+QDI,QTM-118724,Qontak Tumbuh Makmur,,04002600445119805,16200000,Faktur tanpa transaksi,
+QDI,QTM-115204,Qontak Tumbuh Makmur,,04002600407552886,549242,Faktur tanpa transaksi,
+QDI,24/0055/10/DPNL/INV,Lembaga Pengembangan Perbankan Indonesia,,08002600418249132,2200000,Faktur tanpa transaksi,
+QDI,368-I/LMI/X/26,Loyal Member Indonesia,,04002600426938729,13841,Faktur tanpa transaksi,
+QDI,(tanpa referensi),Telkom Indonesia,,04002600409498312,119700,Faktur tanpa transaksi,
+QDI,(tanpa referensi),Bank Central Asia,,04002600462454655,17500,Faktur tanpa transaksi,Jasa VA
+QDI,001/PLUS/2026100032,Pembayaran Lintas Usaha Sukses,,04002600457517169,166,Faktur tanpa transaksi,
+QKI,INV/204/CLOUD-QKI/IX/2026,PT Sentral Link Solutions,145979680,,,Faktur belum ada,Faktur QKI tidak ada di zip (zip hanya pembeli QDI)

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block body %}<h1>Profil</h1>
+<div class="card"><p>{{ g.user.name }} · {{ g.user.email }} · {{ ROLES[g.user.role] }}</p>
+{% if me %}<p>Penanda tangan: <b>{{ me.name }}</b> – {{ me.title }}</p>
+<p>Gambar ttd: {{ 'sudah ada' if me.signature_image_path else 'belum ada' }}</p>
+<form method="post" enctype="multipart/form-data" class="row"><input type="file" name="image" accept=".png,.jpg,.jpeg" required><button>Upload gambar ttd saya</button></form>
+<p class="muted">PNG transparan disarankan. Hanya Anda yang bisa memakai gambar ttd ini.</p>
+{% else %}<p class="muted">Akun belum ditautkan ke data penanda tangan (Admin → Penanda Tangan → isi email).</p>{% endif %}</div>{% endblock %}

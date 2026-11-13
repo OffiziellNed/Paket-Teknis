@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% block body %}
+<h1>Dashboard</h1>
+{% if has_role('TAX_SUPPORT') %}
+<div class="card"><form method="post" action="{{ url_for('main.period_open') }}" class="row">
+<div><label>Entitas</label><select name="entity">{% for e in ents %}<option>{{ e.code }}</option>{% endfor %}</select></div>
+<div><label>Masa</label><select name="month">{% for b in BULAN %}<option value="{{ loop.index }}" {{ 'selected' if loop.index==dm }}>{{ b }}</option>{% endfor %}</select></div>
+<div><label>Tahun</label><input name="year" type="number" value="{{ dy }}" style="width:90px"></div>
+<button>Buka masa</button><span class="muted">Membuka masa baru otomatis membuat draft transaksi rutin.</span>
+</form></div>{% endif %}
+{% if not rows and has_role('ADMIN') %}<div class="card"><h2>Database masih kosong</h2>
+<p>Import master entitas, KOP, vendor, penanda tangan, dan transaksi historis (QDI 2026, QKI 2024–2026) dari folder <code>paket/</code>.</p>
+<form method="post" action="{{ url_for('main.admin_seed') }}"><button>Import data awal</button></form></div>{% endif %}
+<form method="post" action="{{ url_for('main.send') }}">
+<div class="card scroll"><table>
+<tr><th></th><th>Masa</th><th>Status</th><th class="n">Bupot</th><th class="n">PPh 23</th><th class="n">PPh Final</th><th class="n">PPh 21</th><th class="n">Total Pajak</th></tr>
+{% for p, t in rows %}<tr>
+<td>{% if p.status=='APPROVED' %}<input type="checkbox" name="pids" value="{{ p.id }}">{% endif %}</td>
+<td><a href="{{ url_for('main.period', pid=p.id) }}">{{ p.label }}</a></td>
+<td><span class="badge b-{{ p.status }}">{{ p.status }}</span></td><td class="n">{{ t.count_bupot }}</td>
+<td class="n">{{ t.pph23|rp }}</td><td class="n">{{ t.final|rp }}</td><td class="n">{{ (t.pph21+t.pph21_freelance)|rp }}</td><td class="n"><b>{{ t.total|rp }}</b></td></tr>{% endfor %}
+</table></div>
+{% if has_role('TAX_SUPPORT','MANAGER_FAT') %}<button>Kirim email masa terpilih (XML + PDF + XLSX per entitas)</button>{% endif %}
+</form>{% endblock %}

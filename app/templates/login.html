@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block title %}Masuk{% endblock %}{% block body %}
+<div class="card" style="max-width:460px;margin:40px auto">
+<h1>Masuk</h1>
+{% if sso %}<p><a class="btn" href="{{ url_for('auth.login_sso') }}">Masuk dengan Microsoft 365</a></p>
+<p class="muted">Hanya akun @qoin.id.</p>{% else %}<p class="muted">SSO belum dikonfigurasi (ENTRA_TENANT_ID / ENTRA_CLIENT_ID / ENTRA_CLIENT_SECRET).</p>{% endif %}
+{% if dev %}<hr><h2>Login development</h2>
+<form method="post" action="{{ url_for('auth.login_dev') }}">
+<label>Email</label><input name="email" list="users" placeholder="nama@qoin.id" required style="width:100%">
+<datalist id="users">{% for u in users %}<option value="{{ u.email }}">{{ ROLES[u.role] }}</option>{% endfor %}</datalist>
+<p><button>Masuk</button></p></form>
+<p class="muted">DEV_LOGIN aktif – matikan di production.</p>{% endif %}
+</div>{% endblock %}

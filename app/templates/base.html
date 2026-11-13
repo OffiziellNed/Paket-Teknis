@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Rekap PPh Unifikasi{% endblock %} – Qoin</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<header><div class="brand">Rekap PPh Unifikasi</div>
+{% if g.user %}<nav>
+<a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+{% if has_role('TAX_SUPPORT') %}<a href="{{ url_for('main.bulk') }}">Upload Massal</a><a href="{{ url_for('main.bupot_import') }}">Import No Bupot</a>{% endif %}
+<a href="{{ url_for('main.vendors') }}">Vendor</a><a href="{{ url_for('main.kop') }}">KOP</a>
+{% if has_role('ADMIN') %}<a href="{{ url_for('main.entities') }}">Entitas</a><a href="{{ url_for('main.signers') }}">Penanda Tangan</a><a href="{{ url_for('main.users') }}">User</a>{% endif %}
+{% if has_role('MANAGER_FAT','ADMIN') %}<a href="{{ url_for('main.audit') }}">Audit</a>{% endif %}
+</nav>
+<div class="me"><a style="color:#cfd8ea" href="{{ url_for('main.profile') }}">{{ g.user.name }}</a> · {{ ROLES[g.user.role] }} · <a style="color:#cfd8ea" href="{{ url_for('auth.logout') }}">Keluar</a></div>{% endif %}
+</header>
+<main>
+{% if DB_EPHEMERAL %}<div class="flash error"><b>DATABASE_URL belum diisi.</b> Aplikasi memakai database sementara di /tmp – semua data akan HILANG. Isi DATABASE_URL (Postgres/Neon) di Vercel → Settings → Environment Variables.</div>{% endif %}
+{% for cat, msg in get_flashed_messages(with_categories=true) %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+{% block body %}{% endblock %}
+</main></body></html>

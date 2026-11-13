@@ -1,0 +1,26 @@
+nama,npwp16,nitku,entitas,grup,jenis_jasa_default,kop_default,tarif_default,3_invoice_terakhir,dipotong_pph23,tagihan_rutin,aturan_khusus
+Artha Telekomindo,0016149734062000,0016149734062000000000,QDI,Non-QRIS,Jasa Internet & sambungannya,24-104-26,0.02,260021769 | 260024008 | 260024808,Ya,Ya,
+PT Venturo Pro Indonesia,0950231175623000,0950231175623000000000,QDI,Non-QRIS,Jasa Sehubungan dengan software atau hardware (Web Programmer),,0.02,INV/2026/00468 | INV/2026/00477 | INV/2026/00491,Ya,Tidak,
+Lembaga Pengembangan Perbankan Indonesia,0021610332062000,0021610332062000000000,QDI,Non-QRIS,Jasa Pelatihan dan/atau kursus,,0.02,24/0069/01/DPNL/INV | No Ref 140426/LPPI | No Ref 140426-1/LPPI,Ya,Tidak,
+PT Rintis Sejahtera,0015430614062000,0015430614062000000000,QDI,QRIS,Jasa Perantara dan/atau Keagenan,24-104-18,0.02,003803/I/RS/X/26 | AR#261003897#5521-003897/I/RS/X/26 | AR#261003968#5614-003968/I/RS/X/26,Ya,Tidak,"Item ""Administration Virtual Account"" -> section PPh 23, notes ""Adm VA Qoin periode {bulan sebelum tgl faktur}""; lainnya -> PPh 23 Project QRIS"
+PT ALTO Network,0016264426015000,0016264426015000000000,QDI,QRIS,Jasa Perantara dan/atau Keagenan,24-104-18,0.02,PI.260927 | PI26.00416 | PI26.00472,Ya,Tidak,"Referensi faktur ""P1xx"" dikoreksi ke ""PIxx"""
+PT Penyelesaian Transaksi Elektronik Nasional,0840718738071000,0840718738071000000000,QDI,QRIS,Jasa Perantara dan/atau Keagenan,24-104-18,0.02,PTEN.INV/Q115/09/2026|Fee LS QRIS Domestik  dari RINTIS. | PTEN.INV/Q116/10/2026|Fee LS QRIS Domestik dari ALTO. | PTEN.INV/Q115/10/2026|Fee LS QRIS Domestik dari RINTIS.,Ya,Tidak,
+PT Loyal Member Indonesia,0947794681034000,0947794681034000000000,QDI,QRIS,Sharing Fee Loyalid,,0.02,047-I/LMI/I/26 | 133-I/LMI/III/26 | 202-I/LMI/V/26,Ya,Tidak,
+PT Mahesa Cipta,0031880503012000,0031880503012000000000,QDI,Final,Sewa Tanah dan/atau Bangunan (PPh Final 4 ayat 2),28-403-02,0.1,245/MC-QDI/IX/2026 | 273/MC-QDI/X/2026 | 281/MC-QDI/X/2026,Ya,Ya,Per tagihan: Dikenakan PPh Final 10% (default) atau Dibebaskan; saran dari pilihan terakhir per jenis tagihan (Listrik/Air/Service Charge/Sewa)
+Eight Solutions Indonesia,0825051113067000,0825051113067000000000,QDI,Non-QRIS,"Jasa Penyimpanan, Pengolahan dan/atau Penyaluran Data, Informasi, dan/atau Program",24-104-27,0.02,IDRINV2026001614 | IDRINV2026001918 | IDRINV2026002201,Ya,Tidak,
+Sentral Link Solution,0031881097012000,0031881097012000000000,QDI,Non-QRIS,Jasa Sehubungan dengan software atau hardware,24-104-24,0.02,INV/277/CLOUD-QKI/XII/2025 | INV/039/CLOUD-QKI/II/2026 | INV/204/CLOUD-QKI/IX/2026,Ya,Tidak,
+Yohanes Aples & Partners,0827899568063000,0827899568063000000000,QDI,Non-QRIS,Jasa Hukum,,0.02,002/YA/INV/III/2026 | 006/YA/INV/VI/2026 | 003/YA/INV/VII/2026,Ya,Tidak,
+PT Qontak Tumbuh Makmur,0911762276012000,0911762276012000000000,QDI,Non-QRIS,"Jasa Penyimpanan, Pengolahan dan/atau Penyaluran Data, Informasi, dan/atau Program",24-104-27,0.02,QTM/BPI/2026/04/16328 | QTM/BPI/2026/04/21041 | QTM/BPI/2026/03/01498,Ya,Tidak,
+Biznet Gio Nusantara,0721830271022000,0721830271022000000000,QDI,Non-QRIS,Jasa Internet & sambungannya,24-104-26,0.02,3100015920 | 3100016195,Ya,Tidak,
+Kantor Akuntan Publik Anwar & Rekan,0210046470018000,0210046470018000000000,QDI,Non-QRIS,"Jasa Akuntansi, Pembukuan & Atestasi Laporan Keuangan (Audit)",,0.02,AR/B/II/681/26 | AR/B/II/1004/26,Ya,Tidak,
+PT Konsultasi Teknologi Indonesia,0624218418034000,0624218418034000000000,QDI,Non-QRIS,Jasa Konsultasi,24-104-03,0.02,29/KTI/VIII/2026 | 29/KTI/IX/2026 | 15/KTI/X/2026,Ya,Ya,
+PT  Dotcom Solusi Kreatif,0392813465034000,0392813465034000000000,QDI,Non-QRIS,Jasa Pengelolaan website,24-104-25,0.02,0110/DSK/III/26 | 0126/DSK/III/26 | 0104/DSK/III/26,Ya,Tidak,
+PT Mega Global Solusindo,0393365424002000,0393365424002000000000,QDI,Non-QRIS,Jasa Konsultasi,24-104-03,0.02,INV/2026/0073 | INV/2026/0075 | 011/BK-AG/IX/26,Ya,Tidak,
+PT Sistem Pembayaran Indonesia,0138401559071000,0138401559071000000000,QDI,Non-QRIS,Jasa Pelatihan/Sertifikasi Profesi (LSP SPI),,0.02,INV/LSPSPI/0503/IX/26,Ya,Tidak,
+PT Kubus Mitra Inovasi,0734531692063000,0734531692063000000000,QKI,Non-QRIS,,,0.02,009/KMI-INV/2024,Ya,Tidak,
+PT DOTCOM INDONESIA,0019620772031000,0019620772031000000000,QKI,Non-QRIS,,,0.02,0199/DCI/III/23,Ya,Tidak,
+PT Intelix Global Crossing,0020707683061000,0020707683061000000000,QKI,Non-QRIS,,,0.02,593/D1-INV/VIII-2024 | 459/D1-INV/VII-2024 | 398/D1-INV/VI-2024,Ya,Tidak,
+Tirta Mahendra Dwi Putra,3175082805860000,3175082805860000000000,QKI,Non-QRIS,,,0.02,000003,Ya,Tidak,
+PT ORBIT TANAH AIRKU,0530889088012000,0530889088012000000000,QKI,Non-QRIS,,,0.02,SMP01-24080080,Ya,Tidak,
+PT Bank Central Asia Tbk,0013084496091000,0013084496091000000000,QDI,Non-QRIS,Jasa Virtual Account,,,,Tidak,Tidak,
+PT Telkom Indonesia (Persero) Tbk,0010000131093000,0010000131093000000000,QDI,Non-QRIS,Telekomunikasi,,,,Tidak,Tidak,

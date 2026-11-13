@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BpuBulk xsi:noNamespaceSchemaLocation="schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TIN>xxxxxxxxxxxxxxxx</TIN>
+  <ListOfBpu>
+    <Bpu>
+      <TaxPeriodMonth>6</TaxPeriodMonth>
+      <TaxPeriodYear>2013</TaxPeriodYear>
+      <CounterpartTin>xxxxxxxxxxxxxxxx</CounterpartTin>
+      <IDPlaceOfBusinessActivityOfIncomeRecipient>000000</IDPlaceOfBusinessActivityOfIncomeRecipient>
+      <TaxCertificate>N/A</TaxCertificate>
+      <TaxObjectCode>24-104-06</TaxObjectCode>
+      <TaxBase>10000000</TaxBase>
+      <Rate>20</Rate>
+      <Document>StatementLetter</Document>
+      <DocumentNumber>string</DocumentNumber>
+      <DocumentDate>2002-01-28</DocumentDate>
+      <IDPlaceOfBusinessActivity>000000</IDPlaceOfBusinessActivity>
+      <GovTreasurerOpt>N/A</GovTreasurerOpt>
+      <SP2DNumber />
+      <WithholdingDate>2013-03-18</WithholdingDate>
+    </Bpu>
+  </ListOfBpu>
+</BpuBulk>

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block body %}<h1>Master vendor</h1>
+<form class="row" style="margin-bottom:10px"><input name="q" value="{{ q }}" placeholder="cari nama / NPWP"><button class="sec">Cari</button>
+{% if has_role('TAX_SUPPORT') %}<a class="btn" href="{{ url_for('main.vendor_edit') }}">+ Vendor</a>{% endif %}</form>
+<div class="card scroll"><table><tr><th>Nama</th><th>NPWP16</th><th>Grup</th><th>Section</th><th>KOP</th><th class="n">Tarif</th><th>Dipotong PPh 23</th><th>Rutin</th><th>Aktif</th><th>Aturan khusus</th></tr>
+{% for v in vs %}<tr><td><a href="{{ url_for('main.vendor_edit', vid=v.id) }}">{{ v.name }}</a></td><td>{{ v.npwp16 }}</td><td>{{ v.group or '' }}</td><td>{{ SECTIONS.get(v.default_section,'') }}</td><td>{{ v.default_kop or '' }}</td>
+<td class="n">{{ ('%g'|format(v.default_rate*100) ~ '%') if v.default_rate else '' }}</td><td>{{ 'Ya' if v.withhold_pph23 else 'Tidak' }}</td><td>{{ 'Ya' if v.is_recurring else '' }}</td><td>{{ 'Ya' if v.active else 'Tidak' }}</td><td class="muted">{{ v.special_rules_text or '' }}</td></tr>{% endfor %}</table></div>{% endblock %}

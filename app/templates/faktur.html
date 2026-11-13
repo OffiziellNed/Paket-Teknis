@@ -1,0 +1,86 @@
+{% extends 'base.html' %}{% block body %}
+<h1>Faktur & crosscheck – {{ p.label }}</h1>
+{% if has_role('TAX_SUPPORT') %}<div class="card"><form id="fup" class="row" onsubmit="return false">
+<div><label>Faktur pajak masukan (banyak PDF dan/atau ZIP; maks 300 faktur / 200 MB)</label><input type="file" id="ffiles" multiple accept=".pdf,.zip" required></div>
+{% if not p.locked %}<label style="display:inline"><input type="checkbox" id="fauto" checked> buat draft otomatis setelah upload</label>{% endif %}
+<button id="fbtn">Upload & parse</button></form>
+<div id="fprog" class="muted" style="margin-top:6px"></div>
+{% if not p.locked %}<form method="post" action="{{ url_for('main.faktur_drafts', pid=p.id) }}" style="margin-top:8px"><button class="sec">Buat / perbarui draft dari faktur</button>
+<span class="muted">Draft dibuat untuk semua vendor di master (status Perlu konfirmasi). Vendor tidak dipotong PPh 23 diabaikan. Rintis/ALTO/PTEN: KOP 24-104-18, 2%, DPP = harga jual.</span></form>{% endif %}
+</div>{% endif %}
+
+{% if vendor_baru %}<div class="card"><h2>Vendor baru (belum ada di master)</h2><table><tr><th>Penjual</th><th>NPWP</th><th>Referensi</th><th class="n">Harga jual</th><th></th></tr>
+{% for f in vendor_baru %}<tr><td>{{ f.seller_name }}</td><td>{{ f.seller_npwp16 }}</td><td>{{ f.reference }}</td><td class="n">{{ f.sale_amount|rp }}</td>
+<td><a href="{{ url_for('main.vendor_edit', name=f.seller_name.title(), npwp=f.seller_npwp16, next=url_for('main.faktur', pid=p.id)) }}">Tambah ke master</a></td></tr>{% endfor %}</table></div>{% endif %}
+
+<div class="card scroll"><h2>Pencocokan invoice ↔ faktur</h2><table>
+<tr><th>Entitas</th><th>No invoice / referensi</th><th>Lawan transaksi</th><th class="n">DPP rekap</th><th>No faktur</th><th class="n">Harga jual faktur</th><th>Status</th><th>Catatan</th></tr>
+{% for r in cc %}{% set cls = 'st-Cocok' if r.status.startswith('Cocok') else ('st-err' if r.status in ['Selisih nilai','Faktur belum ada'] else 'st-warn') %}
+<tr><td>{{ r.entitas }}</td><td>{{ r.no_invoice }}</td><td>{{ r.lawan_transaksi }}</td><td class="n">{{ r.dpp_rekap|rp }}</td><td>{{ r.no_faktur }}</td>
+<td class="n">{{ r.harga_jual_faktur|rp }}</td><td class="{{ cls }}"><b>{{ r.status }}</b></td><td>{{ r.catatan }}</td></tr>{% endfor %}</table></div>
+
+<div class="card scroll"><h2>Faktur ter-upload ({{ fak|length }})</h2><table>
+<tr><th>No faktur</th><th>Tanggal</th><th>Penjual</th><th>Referensi</th><th>Item</th><th class="n">Harga jual</th><th class="n">DPP PPN</th><th class="n">PPN</th><th>Tidak dipotong</th></tr>
+{% for f in fak %}<tr {% if f.not_withheld_reason is not none %}class="excluded"{% endif %}><td><a href="{{ url_for('main.faktur_file', fid=f.id) }}" target="_blank">{{ f.serial_no }}</a></td><td class="nowrap">{{ f.invoice_date|dt }}</td>
+<td>{{ f.seller_name }}<div class="muted">{{ f.seller_npwp16 }}</div></td><td>{{ f.reference }}</td><td>{{ (f.items or [])|join('; ') }}</td>
+<td class="n">{{ f.sale_amount|rp }}</td><td class="n">{{ f.vat_base|rp }}</td><td class="n">{{ f.vat|rp }}</td>
+<td>{% if has_role('TAX_SUPPORT') %}<form method="post" action="{{ url_for('main.faktur_not_withheld', fid=f.id) }}" class="row">
+{% if f.not_withheld_reason is not none %}<span>{{ f.not_withheld_reason }}</span><button class="sm sec" name="undo" value="1">Batal</button>
+{% else %}<input name="reason" placeholder="alasan" style="width:140px"><button class="sm sec">Tidak dipotong</button>{% endif %}</form>{% endif %}</td></tr>{% endfor %}
+</table></div>
+<p><a href="{{ url_for('main.period', pid=p.id) }}">← Kembali ke masa</a></p>
+<script src="{{ url_for('static', filename='jszip.min.js') }}"></script>
+<script>
+// Upload bertahap: ZIP dibuka di browser, PDF dikirim per batch (<= {{ (config.UPLOAD_BATCH_BYTES/1048576)|round(1) }} MB per request)
+const BATCH = {{ config.UPLOAD_BATCH_BYTES }}, MAXN = 300, MAXB = 200 * 1024 * 1024;
+const prog = document.getElementById('fprog');
+document.getElementById('fbtn').onclick = async () => {
+  const sel = [...document.getElementById('ffiles').files];
+  if (!sel.length) { prog.textContent = 'Pilih file dulu.'; return; }
+  const btn = document.getElementById('fbtn'); btn.disabled = true;
+  try {
+    let pdfs = [], total = 0;
+    for (const f of sel) {
+      if (f.name.toLowerCase().endsWith('.zip')) {
+        prog.textContent = 'Membuka ' + f.name + ' ...';
+        const z = await JSZip.loadAsync(f);
+        for (const e of Object.values(z.files)) {
+          if (!e.dir && e.name.toLowerCase().endsWith('.pdf')) {
+            const b = await e.async('blob');
+            pdfs.push(new File([b], e.name.split('/').pop(), {type: 'application/pdf'}));
+          }
+        }
+      } else if (f.name.toLowerCase().endsWith('.pdf')) pdfs.push(f);
+    }
+    pdfs.forEach(f => total += f.size);
+    if (pdfs.length > MAXN) throw new Error('Maksimal ' + MAXN + ' faktur per upload (terpilih ' + pdfs.length + ')');
+    if (total > MAXB) throw new Error('Total melebihi 200 MB');
+    let batches = [], cur = [], size = 0;
+    for (const f of pdfs) {
+      if (cur.length && size + f.size > BATCH) { batches.push(cur); cur = []; size = 0; }
+      cur.push(f); size += f.size;
+    }
+    if (cur.length) batches.push(cur);
+    let saved = 0, skipped = 0, errors = [], other = [];
+    for (let i = 0; i < batches.length; i++) {
+      prog.textContent = `Upload batch ${i + 1}/${batches.length} (${saved} tersimpan) ...`;
+      const fd = new FormData(); batches[i].forEach(f => fd.append('files', f, f.name));
+      const r = await fetch('{{ url_for('main.faktur_upload_api', pid=p.id) }}', {method: 'POST', body: fd});
+      const j = await r.json().catch(() => ({error: 'HTTP ' + r.status}));
+      if (!r.ok || j.error) throw new Error(j.error || ('HTTP ' + r.status));
+      saved += j.saved; skipped += j.skipped.length; errors.push(...j.errors); other.push(...j.other_entity);
+    }
+    let msg = `${saved} faktur tersimpan, duplikat dilewati: ${skipped}.`;
+    if (errors.length) msg += ' Error: ' + errors.join('; ');
+    if (other.length) msg += ' Pembeli entitas lain: ' + other.join(', ');
+    const auto = document.getElementById('fauto');
+    if (auto && auto.checked) {
+      prog.textContent = msg + ' Membuat draft ...';
+      await fetch('{{ url_for('main.faktur_drafts', pid=p.id) }}', {method: 'POST'});
+    }
+    sessionStorage.setItem('fmsg', msg);
+    location.reload();
+  } catch (e) { prog.innerHTML = '<span class="merah">Gagal: ' + e.message + '</span>'; btn.disabled = false; }
+};
+try { const m = sessionStorage.getItem('fmsg'); if (m) { prog.innerHTML = '<span class="hijau">' + m + '</span>'; sessionStorage.removeItem('fmsg'); } } catch (e) {}
+</script>{% endblock %}

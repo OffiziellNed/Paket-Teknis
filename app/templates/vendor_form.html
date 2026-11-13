@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% block body %}<h1>{{ v.name if v else 'Vendor baru' }}</h1>
+<form method="post" class="card"><input type="hidden" name="next" value="{{ next }}"><div class="grid">
+<div><label>Nama</label><input name="name" required value="{{ v.name if v else pre.name }}" style="width:100%"></div>
+<div><label>NPWP (15/16 digit)</label><input name="npwp" required value="{{ v.npwp16 if v else pre.npwp }}"></div>
+<div><label>NPWP tampilan (di laporan)</label><input name="npwp_display" value="{{ v.npwp_display if v else '' }}"></div>
+<div><label>NITKU</label><input name="nitku" value="{{ v.nitku if v else '' }}" placeholder="otomatis NPWP16+000000"></div>
+<div><label>Entitas</label><select name="entity_hint">{% for e in ['QDI','QKI'] %}<option {{ 'selected' if v and v.entity_hint==e }}>{{ e }}</option>{% endfor %}</select></div>
+<div><label>Grup</label><select name="group">{% for gname in ['Non-QRIS','QRIS','Final'] %}<option {{ 'selected' if v and v.group==gname }}>{{ gname }}</option>{% endfor %}</select></div>
+<div><label>Section default</label><select name="default_section">{% for k,l in SECTIONS.items() %}<option value="{{ k }}" {{ 'selected' if v and v.default_section==k }}>{{ l }}</option>{% endfor %}</select></div>
+<div><label>KOP default</label><select name="default_kop"><option value="">–</option>{% for k in kops %}<option {{ 'selected' if v and v.default_kop==k.code }}>{{ k.code }}</option>{% endfor %}</select></div>
+<div><label>Tarif default (%)</label><input name="default_rate" value="{{ '%g'|format(v.default_rate*100) if v and v.default_rate else '2' }}"></div>
+<div><label>Jenis jasa default</label><input name="default_service" value="{{ v.default_service if v and v.default_service else '' }}" style="width:100%"></div>
+<div><label>Alias autocomplete (koma)</label><input name="aliases" value="{{ (v.aliases or [])|join(', ') if v else '' }}"></div>
+<div><label><input type="checkbox" name="withhold_pph23" value="1" {{ 'checked' if not v or v.withhold_pph23 }}> Dipotong PPh 23</label>
+<label><input type="checkbox" name="is_recurring" value="1" {{ 'checked' if v and v.is_recurring }}> Tagihan rutin (draft saat buka masa)</label>
+<label><input type="checkbox" name="active" value="1" {{ 'checked' if not v or v.active }}> Aktif</label></div></div>
+<label style="margin-top:10px">Aturan otomatis (JSON) – mis. {"ref_fix":"P1->PI","auto_qris_draft":true,"item_rules":[{"contains":"...","section":"PPH23","notes":"... {bulan_sebelum}"}]}</label>
+<textarea name="auto_rules" rows="3" style="width:100%">{{ (v.auto_rules or {})|tojson if v else '{}' }}</textarea>
+<p>{% if has_role('TAX_SUPPORT') %}<button>Simpan</button>{% endif %}</p></form>
+{% if hist %}<div class="card"><h2>5 invoice terakhir</h2><table><tr><th>Invoice</th><th>Tanggal</th><th>Masa</th><th class="n">DPP</th></tr>
+{% for t in hist %}<tr><td>{{ t.invoice_no }}</td><td>{{ t.invoice_date|dt }}</td><td>{{ t.period.label }}</td><td class="n">{{ t.dpp|rp }}</td></tr>{% endfor %}</table></div>{% endif %}{% endblock %}
